@@ -50,11 +50,10 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
 
   return (
     <>
-    {/* Main Blue Header 
-        Mobile: top-[50px] (Brand Bar height). Height 60px.
-        Desktop: top-0. Height 64px.
+    {/* Main Header 
+        Now fixed at top-[50px] for all devices.
     */}
-    <header className="fixed top-[50px] lg:top-0 left-0 lg:left-64 right-0 bg-headerRed h-[60px] lg:h-16 z-40 flex items-center justify-between px-4 shadow-lg lg:shadow-md transition-all duration-300">
+    <header className="fixed top-[50px] left-0 lg:left-64 right-0 bg-headerRed h-[60px] lg:h-16 z-40 flex items-center justify-between px-4 shadow-lg lg:shadow-md transition-all duration-300">
       
       {/* Mobile: Hamburger Menu inside Header */}
       <div className="lg:hidden flex items-center">
@@ -128,9 +127,9 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
 
     {/* Secondary Ticker Header 
         Mobile: top-[110px] (50px Brand + 60px Header).
-        Desktop: top-16 (64px Header).
+        Desktop: top-[114px] (50px Brand + 64px Header).
     */}
-    <div className="fixed top-[110px] lg:top-16 left-0 lg:left-64 right-0 h-12 bg-[#1A1F29] border-b border-gray-800 z-30 shadow-md">
+    <div className="fixed top-[110px] lg:top-[114px] left-0 lg:left-64 right-0 h-12 bg-[#1A1F29] border-b border-gray-800 z-30 shadow-md">
         <div className="tradingview-widget-container h-full w-full" ref={tickerRef}>
             <div className="tradingview-widget-container__widget"></div>
         </div>

@@ -85,18 +85,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
   return (
     <aside
-      className={`fixed inset-y-0 left-0 bg-[#151922] w-64 flex flex-col z-[100] transform shadow-2xl ${
+      className={`fixed top-[50px] bottom-0 left-0 bg-[#151922] w-64 flex flex-col z-[100] transform shadow-2xl ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       } lg:translate-x-0 transition-transform duration-300 ease-in-out`}
     >
       {/* Sidebar Header / Profile Section */}
       <div className="flex flex-col items-center py-8 border-b border-gray-800 bg-[#1A1F29] flex-shrink-0">
-        <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold tracking-wide text-red-600 leading-none">
-            OCBC NISP
-          </h1>
-          <p className="text-gray-500 text-[8px] tracking-[0.2em] mt-1">INVESTMENT</p>
-        </div>
         <h2 className="text-red-400 text-lg font-bold mb-4">Welcome User</h2>
         <div className="relative mb-3">
             {user?.profilePictureUrl ? (

@@ -15,12 +15,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   return (
     <div className="flex min-h-screen bg-darkblue text-white font-sans selection:bg-primary selection:text-white">
       
-      {/* MOBILE ONLY: Top Brand Bar */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 h-[50px] bg-[#151922] z-50 flex flex-col items-center justify-center border-b border-gray-800 shadow-sm">
+      {/* Top Brand Bar (Now for all devices) */}
+      <div className="fixed top-0 left-0 right-0 h-[50px] bg-black z-50 flex flex-col items-center justify-center border-b border-gray-800 shadow-sm">
          <h1 className="text-xl font-bold tracking-wide text-red-600 leading-none">
             OCBC NISP
          </h1>
-         <p className="text-gray-400 text-[9px] tracking-widest mt-0.5">INVESTMENT</p>
+         <p className="text-gray-400 text-[9px] tracking-widest mt-0.5 uppercase">INVESTMENT</p>
       </div>
 
       {/* Sidebar */}
@@ -40,12 +40,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
              Padding (20px) 
              = pt-[178px]
            Desktop:
+             Brand Bar (50px) +
              Header (64px) + 
              Ticker (48px) + 
              Padding (32px)
-             = pt-[144px]
+             = pt-[194px]
         */}
-        <main className="flex-1 px-4 sm:px-6 pt-[178px] lg:pt-[144px] pb-10">
+        <main className="flex-1 px-4 sm:px-6 pt-[178px] lg:pt-[194px] pb-10">
           {/* Account Activation Alert */}
           {!user?.isVerified && (
             <div className="bg-gradient-to-r from-danger/90 to-red-900/90 text-white p-4 rounded-lg shadow-lg mb-8 flex items-start backdrop-blur-sm border border-red-500/30">
