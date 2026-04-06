@@ -32,30 +32,36 @@ function createMockClient() {
       const users = getTable('users');
       const profiles = getTable('profiles');
       
-      // 1. SEED ADMIN
-      const adminEmail = 'admin@admin.com';
-      if (!users.find((u: any) => u.email.toLowerCase() === adminEmail.toLowerCase())) {
-          console.log("Creating default Admin account: admin@admin.com / admin123");
-          const adminId = 'admin-user-id';
-          const newAdminUser = { id: adminId, email: adminEmail, password: 'admin123' };
-          
-          const currentUsers = getTable('users');
-          setTable('users', [...currentUsers, newAdminUser]);
+      // 1. SEED ADMINS
+      const admins = [
+        { email: 'admin@admin.com', password: 'admin123', name: 'Super Admin', username: 'admin' },
+        { email: 'dalleloppo257@gmail.com', password: 'Admin257', name: 'Admin Panel', username: 'admin257' }
+      ];
 
-          const newAdminProfile = {
-              id: adminId,
-              email: adminEmail,
-              full_name: 'Super Admin',
-              username: 'admin',
-              phone_number: '08123456789',
-              is_admin: true,
-              is_verified: true,
-              balance: 9999999999,
-              profile_picture_url: null
-          };
-          const currentProfiles = getTable('profiles');
-          setTable('profiles', [...currentProfiles, newAdminProfile]);
-      }
+      admins.forEach(admin => {
+        if (!users.find((u: any) => u.email.toLowerCase() === admin.email.toLowerCase())) {
+            console.log(`Creating Admin account: ${admin.email} / ${admin.password}`);
+            const adminId = crypto.randomUUID();
+            const newAdminUser = { id: adminId, email: admin.email, password: admin.password };
+            
+            const currentUsers = getTable('users');
+            setTable('users', [...currentUsers, newAdminUser]);
+
+            const newAdminProfile = {
+                id: adminId,
+                email: admin.email,
+                full_name: admin.name,
+                username: admin.username,
+                phone_number: '08123456789',
+                is_admin: true,
+                is_verified: true,
+                balance: 9999999999,
+                profile_picture_url: null
+            };
+            const currentProfiles = getTable('profiles');
+            setTable('profiles', [...currentProfiles, newAdminProfile]);
+        }
+      });
 
       // 2. SEED DEMO USER
       const demoEmail = 'user@demo.com';

@@ -9,8 +9,12 @@ const LoginForm: React.FC = () => {
   const [identifier, setIdentifier] = useState(''); // Can be email or phone number
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ identifier?: string; password?: string; api?: string }>({});
-  const { login, isLoading, error } = useAuth();
+  const { login, isLoading, error, clearError } = useAuth();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    clearError();
+  }, [clearError]);
 
   const validate = () => {
     const newErrors: typeof errors = {};
@@ -24,11 +28,11 @@ const LoginForm: React.FC = () => {
     e.preventDefault();
     if (!validate()) return;
 
-    const success = await login(identifier, password); 
-    if (success) {
+    const result = await login(identifier, password); 
+    if (result.success) {
       navigate('/'); // Navigate to dashboard on successful login
     } else {
-      setErrors(prev => ({ ...prev, api: error || 'Login failed. Please try again.' }));
+      setErrors(prev => ({ ...prev, api: result.error || 'Login failed. Please try again.' }));
     }
   };
 

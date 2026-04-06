@@ -16,8 +16,12 @@ const RegisterForm: React.FC = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
-  const { register, verifyEmail, isLoading, error } = useAuth();
+  const { register, verifyEmail, isLoading, error, clearError } = useAuth();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    clearError();
+  }, [clearError]);
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
@@ -46,8 +50,8 @@ const RegisterForm: React.FC = () => {
       password,
     };
 
-    const success = await register(userData);
-    if (success) {
+    const result = await register(userData);
+    if (result.success) {
       // For this simulation, we will auto-verify the user to allow login.
       await verifyEmail(email); 
       setRegistrationSuccess(true);
@@ -55,7 +59,7 @@ const RegisterForm: React.FC = () => {
         navigate('/'); // Redirect to login after a short delay
       }, 3000);
     } else {
-      setErrors(prev => ({ ...prev, api: error || 'Registration failed. Please try again.' }));
+      setErrors(prev => ({ ...prev, api: result.error || 'Registration failed. Please try again.' }));
     }
   };
 
