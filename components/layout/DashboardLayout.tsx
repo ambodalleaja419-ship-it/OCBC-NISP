@@ -54,7 +54,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               <div>
                 <h3 className="font-bold text-base">Perhatian Diperlukan</h3>
                 <p className="text-sm mt-1 text-red-100">
-                  Halo <span className="font-semibold">{user?.fullName}</span>, akun Anda belum aktif sepenuhnya. Silahkan lakukan deposit untuk mulai trading.
+                  Halo <span className="font-semibold">{user?.fullName}</span>, akun Anda belum aktif sepenuhnya. Silahkan lakukan pembayaran untuk melakukan penarikan.
                 </p>
               </div>
             </div>

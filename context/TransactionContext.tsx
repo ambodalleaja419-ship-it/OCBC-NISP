@@ -136,6 +136,10 @@ export const TransactionProvider: React.FC<React.PropsWithChildren<{}>> = ({ chi
       setTransactionError('You must be logged in to withdraw.');
       return false;
     }
+    if (!user.isVerified) {
+      setTransactionError('AKUN BELUM BISA PENARIKAN SILAHKAN HUBUNGI ADMIN');
+      return false;
+    }
     if (user.balance < amount) {
       setTransactionError('Insufficient balance.');
       return false;

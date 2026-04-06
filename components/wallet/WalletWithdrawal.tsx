@@ -9,7 +9,7 @@ import { InformationCircleIcon } from '@heroicons/react/24/solid';
 
 const WalletWithdrawal: React.FC = () => {
   const { user } = useAuth();
-  const { balance, withdraw, isLoadingTransactions, withdrawalHistory, accountMode } = useTransactions();
+  const { balance, withdraw, isLoadingTransactions, withdrawalHistory, accountMode, transactionError } = useTransactions();
   const [amount, setAmount] = useState<string>('');
   const [method, setMethod] = useState<'bank' | 'e-wallet'>('bank');
   const [bankOrEwalletName, setBankOrEwalletName] = useState('');
@@ -22,6 +22,11 @@ const WalletWithdrawal: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
+    
+    if (!user.isVerified) {
+      setMessage({ type: 'error', text: 'AKUN BELUM BISA PENARIKAN SILAHKAN HUBUNGI ADMIN' });
+      return;
+    }
     
     if (accountMode === 'demo') {
          setMessage({ type: 'error', text: 'Demo mode active.' });
@@ -42,7 +47,7 @@ const WalletWithdrawal: React.FC = () => {
       setAmount('');
       setAccountNumber('');
     } else {
-      setMessage({ type: 'error', text: 'Withdrawal failed. Check balance.' });
+      setMessage({ type: 'error', text: transactionError || 'Withdrawal failed. Check balance.' });
     }
   };
 

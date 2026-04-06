@@ -31,6 +31,10 @@ const WithdrawalForm: React.FC = () => {
     const newErrors: typeof errors = {};
     const parsedAmount = parseFloat(amount);
 
+    if (!user?.isVerified) {
+      newErrors.api = 'AKUN BELUM BISA PENARIKAN SILAHKAN HUBUNGI ADMIN';
+    }
+
     if (accountMode === 'demo') {
       newErrors.api = 'Withdrawals are disabled in Demo mode.';
     }
