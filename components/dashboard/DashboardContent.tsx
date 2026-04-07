@@ -85,7 +85,7 @@ const DashboardContent: React.FC = () => {
            <h2 className="text-lg font-bold text-white">Ikhtisar Pasar</h2>
          </div>
          <div 
-            className="tradingview-widget-container w-full h-[800px] sm:h-[850px] lg:h-[1100px] bg-[#151922] rounded-xl overflow-hidden border border-gray-800 shadow-2xl relative" 
+            className="tradingview-widget-container w-full h-[1200px] sm:h-[1300px] lg:h-[1500px] bg-[#151922] rounded-xl overflow-hidden border border-gray-800 shadow-2xl relative" 
             ref={forexRef}
          >
             <div className="tradingview-widget-copyright"></div>
