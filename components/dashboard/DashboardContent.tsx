@@ -78,6 +78,20 @@ const DashboardContent: React.FC = () => {
   return (
     <div className="w-full flex flex-col space-y-6">
        
+       {/* Forex Cross Rates Section */}
+       <div className="space-y-4">
+         <div className="flex items-center space-x-2 mb-2">
+           <TrendingUp className="w-5 h-5 text-red-500" />
+           <h2 className="text-lg font-bold text-white">Ikhtisar Pasar</h2>
+         </div>
+         <div 
+            className="tradingview-widget-container w-full h-[800px] sm:h-[850px] lg:h-[1100px] bg-[#151922] rounded-xl overflow-hidden border border-gray-800 shadow-2xl relative" 
+            ref={forexRef}
+         >
+            <div className="tradingview-widget-copyright"></div>
+         </div>
+       </div>
+
        {/* Summary Cards */}
        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
           {summaryCards.map((card, idx) => (
@@ -166,20 +180,6 @@ const DashboardContent: React.FC = () => {
               <p className="text-sm italic">Tidak ada notifikasi baru.</p>
             </div>
           </div>
-       </div>
-
-       {/* Forex Cross Rates Section */}
-       <div className="space-y-4">
-         <div className="flex items-center space-x-2 mb-2">
-           <TrendingUp className="w-5 h-5 text-red-500" />
-           <h2 className="text-lg font-bold text-white">Ikhtisar Pasar</h2>
-         </div>
-         <div 
-            className="tradingview-widget-container w-full h-[600px] sm:h-[850px] lg:h-[1100px] bg-[#151922] rounded-xl overflow-hidden border border-gray-800 shadow-2xl relative" 
-            ref={forexRef}
-         >
-            <div className="tradingview-widget-copyright"></div>
-         </div>
        </div>
     </div>
   );
