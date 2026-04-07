@@ -23,6 +23,11 @@ export const register = async (userData: Omit<User, 'id' | 'username' | 'isAdmin
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email: userData.email.toLowerCase(), // Normalize email
       password: userData.password,
+      options: {
+        data: {
+          full_name: userData.fullName,
+        }
+      }
     });
 
     if (authError || !authData.user) {
@@ -32,10 +37,10 @@ export const register = async (userData: Omit<User, 'id' | 'username' | 'isAdmin
     const userId = authData.user.id;
     const username = userData.email.split('@')[0].toLowerCase();
 
-    // 2. Create Profile in 'profiles' table
+    // 2. Create/Update Profile in 'profiles' table
     const { data: profileData, error: profileError } = await supabase
       .from('profiles')
-      .insert([
+      .upsert([
         {
           id: userId,
           email: userData.email.toLowerCase(), // Added email to profile
@@ -46,12 +51,13 @@ export const register = async (userData: Omit<User, 'id' | 'username' | 'isAdmin
           is_verified: false,
           balance: 13000000, // Default balance
         }
-      ])
+      ], { onConflict: 'id' })
       .select()
       .single();
 
     if (profileError) {
-      return { user: null, error: 'Failed to create user profile. Please contact support.' };
+      console.error("Supabase Profile Error:", profileError);
+      return { user: null, error: `Database Error: ${profileError.message}` };
     }
 
     return { user: mapProfileToUser(profileData, authData.user) };
