@@ -80,11 +80,11 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
             title="Click to toggle Real/Demo"
         >
           {/* Left Side: Balance */}
-          <div className="bg-[#2B3139] text-white text-[11px] sm:text-sm font-bold px-3 py-1.5 rounded-l flex items-center h-9 border-r border-gray-600">
+          <div className="bg-[#2B3139] text-white text-[10px] sm:text-sm font-bold px-2 sm:px-3 py-1.5 rounded-l flex items-center h-8 sm:h-9 border-r border-gray-600">
             {formatCurrency(balance)}
           </div>
           {/* Right Side: Status */}
-          <div className={`bg-[#0ECB81] text-white text-[10px] sm:text-xs font-bold uppercase tracking-wider px-2 py-1.5 rounded-r flex items-center h-9 min-w-[50px] justify-center`}>
+          <div className={`bg-[#0ECB81] text-white text-[9px] sm:text-xs font-bold uppercase tracking-wider px-1.5 sm:px-2 py-1.5 rounded-r flex items-center h-8 sm:h-9 min-w-[40px] sm:min-w-[50px] justify-center`}>
             {accountMode === 'real' ? 'Real' : 'Demo'}
           </div>
         </button>

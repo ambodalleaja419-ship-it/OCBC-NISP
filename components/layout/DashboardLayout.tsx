@@ -16,18 +16,18 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     <div className="flex min-h-screen bg-darkblue text-white font-sans selection:bg-primary selection:text-white">
       
       {/* Top Brand Bar (Now for all devices) */}
-      <div className="fixed top-0 left-0 right-0 h-[50px] bg-black z-50 flex flex-col items-center justify-center border-b border-gray-800 shadow-sm">
-         <h1 className="text-xl font-bold tracking-wide text-white leading-none">
+      <div className="fixed top-0 left-0 right-0 h-[50px] bg-black z-50 flex flex-col items-center justify-center border-b border-gray-800 shadow-sm px-4">
+         <h1 className="text-lg sm:text-xl font-bold tracking-wide text-white leading-none">
             OCBC NISP
          </h1>
-         <p className="text-gray-400 text-[9px] tracking-widest mt-0.5 uppercase">INVESTMENT</p>
+         <p className="text-gray-400 text-[8px] sm:text-[9px] tracking-widest mt-0.5 uppercase">INVESTMENT</p>
       </div>
 
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col lg:ml-64 transition-all duration-300 ease-in-out">
+      <div className="flex-1 flex flex-col lg:ml-64 transition-all duration-300 ease-in-out min-w-0 overflow-x-hidden">
         {/* Pass toggleSidebar to Header */}
         <Header onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
         
