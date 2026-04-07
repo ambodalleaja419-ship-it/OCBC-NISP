@@ -17,7 +17,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       
       {/* Top Brand Bar (Now for all devices) */}
       <div className="fixed top-0 left-0 right-0 h-[50px] bg-black z-50 flex flex-col items-center justify-center border-b border-gray-800 shadow-sm">
-         <h1 className="text-xl font-bold tracking-wide text-red-600 leading-none">
+         <h1 className="text-xl font-bold tracking-wide text-white leading-none">
             OCBC NISP
          </h1>
          <p className="text-gray-400 text-[9px] tracking-widest mt-0.5 uppercase">INVESTMENT</p>
