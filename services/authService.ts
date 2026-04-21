@@ -229,7 +229,7 @@ export const updateUserInfo = async (updatedData: Partial<User>): Promise<void> 
   if (error) throw error;
 };
 
-export const adminCreateUser = async (userData: Omit<User, 'id' | 'username' | 'isAdmin' | 'isVerified' | 'balance' | 'notifications' | 'profilePictureUrl'> & { password: string }): Promise<{ user: User | null; error?: string }> => {
+export const adminCreateUser = async (userData: Omit<User, 'id' | 'username' | 'isAdmin' | 'notifications' | 'profilePictureUrl'> & { password: string }): Promise<{ user: User | null; error?: string }> => {
   try {
     // 1. Sign up with Supabase Auth
     // Note: In a real app, this would use the Admin API (service_role key) to avoid signing out the current admin.
@@ -262,8 +262,8 @@ export const adminCreateUser = async (userData: Omit<User, 'id' | 'username' | '
           username: username,
           phone_number: userData.phoneNumber,
           is_admin: false,
-          is_verified: true, // Admin created users are verified by default
-          balance: 13000000, // Default balance
+          is_verified: userData.isVerified ?? true,
+          balance: userData.balance ?? 0,
         }
       ])
       .select()

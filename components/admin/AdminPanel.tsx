@@ -39,7 +39,9 @@ const AdminPanel: React.FC = () => {
     fullName: '',
     email: '',
     phoneNumber: '',
-    password: ''
+    password: '',
+    balance: 0,
+    isVerified: true
   });
   const [createUserError, setCreateUserError] = useState<string | null>(null);
   const [isCreatingUser, setIsCreatingUser] = useState(false);
@@ -126,10 +128,16 @@ const AdminPanel: React.FC = () => {
     setCreateUserError(null);
     setIsCreatingUser(true);
     
-    const result = await adminCreateUser(newUserData);
+    // Convert balance to number
+    const userData = {
+      ...newUserData,
+      balance: Number(newUserData.balance)
+    };
+
+    const result = await adminCreateUser(userData);
     if (result.success) {
         setIsCreateUserModalOpen(false);
-        setNewUserData({ fullName: '', email: '', phoneNumber: '', password: '' });
+        setNewUserData({ fullName: '', email: '', phoneNumber: '', password: '', balance: 0, isVerified: true });
         loadData();
         alert('User created successfully!');
     } else {
@@ -141,15 +149,15 @@ const AdminPanel: React.FC = () => {
   const getStatusClass = (status: TransactionStatus): string => {
     switch (status) {
       case TransactionStatus.SUCCESS:
-        return 'bg-success/20 text-success';
+        return 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20';
       case TransactionStatus.PENDING:
-        return 'bg-warning/20 text-warning';
+        return 'bg-amber-500/10 text-amber-500 border border-amber-500/20';
       case TransactionStatus.REJECTED:
       case TransactionStatus.FAILED:
       case TransactionStatus.CANCELLED:
-        return 'bg-danger/20 text-danger';
+        return 'bg-slate-500/10 text-slate-400 border border-slate-500/20';
       default:
-        return 'bg-gray-700 text-gray-300';
+        return 'bg-gray-700/10 text-gray-400 border border-gray-700/20';
     }
   };
 
@@ -222,8 +230,8 @@ const AdminPanel: React.FC = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-300">{u.email}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-white font-sans tabular-nums">Rp {u.balance.toLocaleString('id-ID')}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-sm">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${u.isVerified ? 'bg-success/20 text-success' : 'bg-danger/20 text-danger'}`}>
-                          {u.isVerified ? 'Yes' : 'No'}
+                        <span className={`px-2 py-1 inline-flex text-[10px] leading-4 font-bold rounded-md border ${u.isVerified ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'bg-slate-500/10 text-slate-400 border-slate-500/20'}`}>
+                          {u.isVerified ? 'VERIFIED' : 'UNVERIFIED'}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-sm">
@@ -535,6 +543,29 @@ const AdminPanel: React.FC = () => {
                         onChange={(e) => setNewUserData({...newUserData, password: e.target.value})}
                         required
                     />
+
+                    <Input 
+                        id="newBalance"
+                        label="Initial Balance (Rp)"
+                        type="number"
+                        placeholder="0"
+                        value={newUserData.balance}
+                        onChange={(e) => setNewUserData({...newUserData, balance: Number(e.target.value)})}
+                        icon={<CurrencyDollarIcon />}
+                    />
+
+                    <div className="flex items-center space-x-3 bg-darkblue p-3 rounded-lg border border-gray-700">
+                        <input
+                            id="newIsVerified"
+                            type="checkbox"
+                            className="w-5 h-5 rounded border-gray-700 bg-gray-800 text-primary focus:ring-primary"
+                            checked={newUserData.isVerified}
+                            onChange={(e) => setNewUserData({...newUserData, isVerified: e.target.checked})}
+                        />
+                        <label htmlFor="newIsVerified" className="text-sm font-medium text-white cursor-pointer select-none">
+                            Verify Account Automatically
+                        </label>
+                    </div>
 
                     <div className="mt-8 flex space-x-3 pt-4">
                         <Button type="button" variant="secondary" fullWidth onClick={() => setIsCreateUserModalOpen(false)}>

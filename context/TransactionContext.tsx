@@ -31,7 +31,7 @@ interface TransactionContextType {
   updateWithdrawalStatus: (withdrawalId: string, status: TransactionStatus) => void;
   setCompanyBankInfoList: (info: CompanyBankInfo[]) => void;
   adminUpdateUserBalance: (userId: string, amount: number, type: 'set' | 'add') => void;
-  adminCreateUser: (userData: Omit<User, 'id' | 'username' | 'isAdmin' | 'isVerified' | 'balance' | 'notifications' | 'profilePictureUrl'> & { password: string }) => Promise<{ success: boolean; error?: string }>;
+  adminCreateUser: (userData: Omit<User, 'id' | 'username' | 'isAdmin' | 'notifications' | 'profilePictureUrl'> & { password: string }) => Promise<{ success: boolean; error?: string }>;
   getAllTransactions: () => Promise<Transaction[]>;
   getAllUsers: () => Promise<User[]>;
   updateUserVerification: (userId: string, isVerified: boolean) => void;
@@ -198,7 +198,7 @@ export const TransactionProvider: React.FC<React.PropsWithChildren<{}>> = ({ chi
     }
   };
 
-  const adminCreateUser = async (userData: Omit<User, 'id' | 'username' | 'isAdmin' | 'isVerified' | 'balance' | 'notifications' | 'profilePictureUrl'> & { password: string }): Promise<{ success: boolean; error?: string }> => {
+  const adminCreateUser = async (userData: Omit<User, 'id' | 'username' | 'isAdmin' | 'notifications' | 'profilePictureUrl'> & { password: string }): Promise<{ success: boolean; error?: string }> => {
     setIsLoadingTransactions(true);
     const result = await authService.adminCreateUser(userData);
     setIsLoadingTransactions(false);
