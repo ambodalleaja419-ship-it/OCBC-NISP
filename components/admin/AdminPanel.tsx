@@ -161,6 +161,11 @@ const AdminPanel: React.FC = () => {
     }
   };
 
+  const getUserDetails = (userId: string) => {
+    const u = users.find(user => user.id === userId);
+    return u ? { name: u.fullName, email: u.email } : { name: 'Unknown', email: 'N/A' };
+  };
+
   return (
     <div className="container mx-auto relative">
       <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">Admin Panel (MOCK)</h2>
@@ -277,7 +282,7 @@ const AdminPanel: React.FC = () => {
                 <thead className="bg-darkblue">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">ID</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">User ID</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">User</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Type</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Amount</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
@@ -286,52 +291,58 @@ const AdminPanel: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-800">
-                  {transactions.map((t: Transaction) => (
-                    <tr key={t.id}>
-                      <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500 font-sans tabular-nums">{t.id}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-300 font-sans tabular-nums">{t.userId}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-white">{t.type}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-white font-sans tabular-nums">Rp {t.amount.toLocaleString('id-ID')}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(t.status)}`}>
-                          {t.status}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">{new Date(t.date).toLocaleString()}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-xs sm:text-sm font-medium">
-                        {t.status === TransactionStatus.PENDING && (
-                          <>
-                            <Button
-                              variant="primary"
-                              size="sm"
-                              onClick={async () => {
-                                if (t.type === 'DEPOSIT') await updateDepositStatus(t.id, TransactionStatus.SUCCESS);
-                                else await updateWithdrawalStatus(t.id, TransactionStatus.SUCCESS);
-                                await loadData();
-                              }}
-                              className="mr-2"
-                            >
-                              {t.type === 'WITHDRAWAL' ? 'Mark as Done' : 'Approve'}
-                            </Button>
-                            <Button
-                              variant="danger"
-                              size="sm"
-                              onClick={async () => {
-                                if (t.type === 'DEPOSIT') await updateDepositStatus(t.id, TransactionStatus.REJECTED);
-                                else await updateWithdrawalStatus(t.id, TransactionStatus.REJECTED);
-                                await loadData();
-                              }}
-                            >
-                              Reject
-                            </Button>
-                          </>
-                        )}
-                        {(t.status === TransactionStatus.SUCCESS || t.status === TransactionStatus.REJECTED) && (
-                           <span className="text-gray-500 text-xs">Actioned</span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
+                  {transactions.map((t: Transaction) => {
+                    const userInfo = getUserDetails(t.userId);
+                    return (
+                      <tr key={t.id}>
+                        <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500 font-sans tabular-nums">{t.id}</td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-xs sm:text-sm font-medium text-white">{userInfo.name}</div>
+                          <div className="text-[10px] sm:text-xs text-gray-500">{userInfo.email}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-white">{t.type}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-white font-sans tabular-nums">Rp {t.amount.toLocaleString('id-ID')}</td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(t.status)}`}>
+                            {t.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">{new Date(t.date).toLocaleString()}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-xs sm:text-sm font-medium">
+                          {t.status === TransactionStatus.PENDING && (
+                            <>
+                              <Button
+                                variant="primary"
+                                size="sm"
+                                onClick={async () => {
+                                  if (t.type === 'DEPOSIT') await updateDepositStatus(t.id, TransactionStatus.SUCCESS);
+                                  else await updateWithdrawalStatus(t.id, TransactionStatus.SUCCESS);
+                                  await loadData();
+                                }}
+                                className="mr-2"
+                              >
+                                {t.type === 'WITHDRAWAL' ? 'Mark as Done' : 'Approve'}
+                              </Button>
+                              <Button
+                                variant="danger"
+                                size="sm"
+                                onClick={async () => {
+                                  if (t.type === 'DEPOSIT') await updateDepositStatus(t.id, TransactionStatus.REJECTED);
+                                  else await updateWithdrawalStatus(t.id, TransactionStatus.REJECTED);
+                                  await loadData();
+                                }}
+                              >
+                                Reject
+                              </Button>
+                            </>
+                          )}
+                          {(t.status === TransactionStatus.SUCCESS || t.status === TransactionStatus.REJECTED) && (
+                             <span className="text-gray-500 text-xs">Actioned</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
