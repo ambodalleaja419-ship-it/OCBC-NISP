@@ -40,7 +40,7 @@ const AdminPanel: React.FC = () => {
     email: '',
     phoneNumber: '',
     password: '',
-    balance: 0,
+    balance: 14000000,
     isVerified: true
   });
   const [createUserError, setCreateUserError] = useState<string | null>(null);
@@ -137,7 +137,7 @@ const AdminPanel: React.FC = () => {
     const result = await adminCreateUser(userData);
     if (result.success) {
         setIsCreateUserModalOpen(false);
-        setNewUserData({ fullName: '', email: '', phoneNumber: '', password: '', balance: 0, isVerified: true });
+        setNewUserData({ fullName: '', email: '', phoneNumber: '', password: '', balance: 14000000, isVerified: true });
         loadData();
         alert('User created successfully!');
     } else {

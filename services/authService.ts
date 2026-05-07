@@ -49,7 +49,7 @@ export const register = async (userData: Omit<User, 'id' | 'username' | 'isAdmin
           phone_number: userData.phoneNumber,
           is_admin: false,
           is_verified: false,
-          balance: 13000000, // Default balance
+          balance: 14000000, // Default balance
         }
       ], { onConflict: 'id' })
       .select()
